@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article Highlights</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+       body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+}
+
+.container-1
+ {
+    padding: 5vh 8vw; /* Reduced padding for extra white space on laptop screens */
+    margin: 5vh auto; /* Center the container with auto margins */
+}
+
+/* Side Panel Styling */
+.side-panel {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 400px; /* Reduced width for extra white space */
+    max-width: 100%;
+    height: 100%;
+    background-color: #fff;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    transition: right 0.3s ease;
+    z-index: 1000;
+    overflow-y: auto;
+}
+
+.side-panel.open {
+    right: 0;
+}
+
+.side-panel .close-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background-color: #d92828;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.toggle-panel-btn {
+    position: fixed;
+    top: 50%;
+    right: 18px;
+    transform: translateY(-50%) rotate(90deg);
+    transform-origin: right center;
+    background-color: #d92828;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    z-index: 1001;
+    transition: opacity 0.3s ease;
+}
+
+/* Content Styling */
+.content {
+    padding: 20px;
+}
+
+.article-highlights,
+.prep-satellite,
+.sos-button {
+    margin-bottom: 30px;
+}
+
+.article-highlights h2,
+.prep-satellite h2,
+.sos-button h2 {
+    font-size: 22px;
+    color: #d92828;
+}
+
+.article-highlights ol {
+    padding-left: 20px;
+}
+
+.prep-satellite blockquote {
+    margin: 20px 0;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-left: 4px solid #d92828;
+}
+
+.pricing-estimate {
+    margin-top: 20px;
+
+}
+
+/* Label and Radio Button Styling */
+.row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.row1 {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.col-4, .col-6 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 4px; /* Adjust margin for spacing between buttons */
+    flex: 0 1 30%; /* Ensure buttons are aligned properly */
+}
+
+.col-6,
+.col-4,
+.col-12 {
+    padding: 5px;
+}
+
+.col-6 {
+    width: 48%;
+}
+
+.col-4 {
+    width: 23%;
+}
+
+.col-12 {
+    width: 100%;
+}
+
+.btn-gr {
+    background-color: #e7e7e7;
+    padding: 0px; /* Uniform padding */
+    border-radius: 0; /* Remove border radius for sharp edges */
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 60px; /* Uniform height */
+    min-width: 120px; /* Reduced minimum width for better fit */
+    max-width: 100%; /* Ensure it does not exceed its container */
+    text-align: center; /* Center text */
+    position: relative;
+}
+
+.btn-gr input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.btn-gr span {
+    position: relative;
+    z-index: 1;
+    font-size: 14px; /* Adjust font size for visibility */
+    color: #000; /* Black text */
+}
+
+.btn-gr input[type="radio"]:checked + span {
+    background-color: #d92828; /* Change background to red on selection */
+    color: #fff; /* Keep text color white */
+    border-radius: 0; /* Ensure no border radius on selection */
+    padding: 2px 15px; /* Reduced padding for better fit */
+}
+
+.Elite-btn {
+    background-color: #e7e7e7;
+    padding: 2px; /* Uniform padding */
+    border-radius: 0; /* Remove border radius for sharp edges */
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 60px; /* Uniform height */
+    min-width: 120px; /* Reduced minimum width for better fit */
+    max-width: 100%; /* Ensure it does not exceed its container */
+    text-align: center; /* Center text */
+    position: relative;
+}
+
+.Elite-btn input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.Elite-btn span {
+    position: relative;
+    z-index: 1;
+    font-size: 14px; /* Adjust font size for visibility */
+    color: #000;
+}
+
+.Elite-btn input[type="radio"]:checked + span {
+    background-color: #d92828; /* Change background to red on selection */
+    color: #fff; /* Keep text color white */
+    border-radius: 0;
+    padding: 10px 15px; /* Reduced padding for better fit */
+}
+
+.button-container {
+    margin-top: 20px;
+    text-align: center; /* Center text within the container */
+    padding-bottom: 20px; /* Padding from the bottom */
+}
+
+.button-link {
+    text-decoration: none; /* Remove underline from link */
+}
+
+.disabled-btn {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.mb-2 {
+    margin-bottom: 10px;
+}
+
+.m-b-5 {
+    margin-bottom: 5px;
+}
+
+.m-b-10 {
+    margin-bottom: 5px;
+}
+
+/* Media Queries for Responsive Design */
+@media screen and (max-width: 1200px) {
+    .side-panel {
+        width: 380px; /* Further reduced width */
+    }
+
+    .toggle-panel-btn {
+        right: 10px;
+    }
+
+    .button-container {
+        margin-top: 15px; /* Adjusted margin for medium screens */
+        padding-bottom: 15px; /* Adjusted padding for medium screens */
+    }
+    .pricing-estimate{
+        width:100%;
+        height: 10vh;
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .side-panel {
+        width: 340px; /* Reduced width for smaller screens */
+    }
+
+    .toggle-panel-btn {
+        right: 8px;
+    }
+
+    .button-container {
+        margin-top: 10px; /* Further reduced margin */
+        padding-bottom: 10px; /* Further reduced padding */
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .side-panel {
+        width: 280px; /* Adjusted width for mobile screens */
+    }
+
+    .toggle-panel-btn {
+        right: 5px;
+    }
+
+    .btn-gr {
+        height: 45px;
+        font-size: 12px; /* Reduced font size */
+    }
+
+    .col-4 {
+        width: 30%;
+    }
+
+    .col-6 {
+        width: 48%;
+    }
+
+    .button-container {
+        margin-top: 5vh; /* Minimum margin for mobile screens */
+        padding-bottom: 5vh; /* Minimum padding for mobile screens */
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .side-panel {
+        width: 100%;
+    }
+
+    .toggle-panel-btn {
+        right: 5px;
+    }
+
+    .btn-gr {
+        height: 40px;
+        font-size: 12px; /* Further reduced font size */
+    }
+
+    .col-4,
+    .col-6 {
+        width: 48%;
+    }
+
+    .col-12 {
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: 1440px) {
+    .container-1 {
+        padding: 4vh 6vw; /* Further reduced padding for laptop screens */
+        margin: 4vh auto;
+    }
+}
+
+    </style>
+</head>
+
+<body>
+    <!-- Toggle Button -->
+    <button class="toggle-panel-btn" id="togglePanelBtn">Get an Estimate</button>
+
+    <!-- Side Panel -->
+    <div class="side-panel" id="sidePanel">
+        <button class="close-btn" id="closeBtn">Close</button>
+        <div class="pricing-estimate estimator-v3 stackadapt_estimator_sticky">
+          <h3 class="text-left heading heading-dyn m-b-10" style="margin-top: 50px;">Get a Quick Estimate</h3>
+
+            <!-- Trip Type Selection -->
+            <h4 class="text-left heading heading-dyn m-b-10">Who Is Traveling?</h4>
+            <div class="mb-2">
+                <div class="row">
+                    <div class="col-6">
+                        <label style="width: 60vw;" class="btn btn-gr" for="individual">
+                            <input id="individual" name="type-options" type="radio" value="100">
+                            <span>Individual</span>
+                        </label>
+                    </div>
+                    <div class="col-6">
+                        <label style="width: 60vw;" class="btn btn-gr" for="family">
+                            <input id="family" name="type-options" type="radio" value="240">
+                            <span>Family</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+<!-- Membership Duration Selection -->
+          <div class="mb-2">
+    <div class="col-12 m-b-5" style="margin: auto;">
+        <strong>Short Term or Annual Membership?</strong>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <label style="width: 60vw;" class="btn btn-gr" for="allYear">
+                <input id="allYear" name="duration-options" type="radio" value="allYear">
+                <span>Annual</span>
+            </label>
+        </div>
+        <div class="col-6">
+            <label style="width: 60vw;" class="btn btn-gr" for="oneTrip">
+                <input id="oneTrip" name="duration-options" type="radio" value="oneTrip">
+                <span>Short Term</span>
+            </label>
+        </div>
+    </div>
+</div>
+
+            <!-- Short Term Trip Duration Selection -->
+            <div class="one-trip-options mb-2" style="display: none;">
+                <div class="row1">
+                    <div class="col-12 m-b-5"><strong>How long is your trip?</strong></div>
+                    <div class="col-4">
+                        <label class="btn btn-gr" for="8day">
+                            <input id="8day" name="one-trip-options" type="radio" value="8Day">
+                            <span>8 Days</span>
+                        </label>
+                    </div>
+                    <div class="col-4">
+                        <label class="btn btn-gr" for="15Day">
+                            <input id="15Day" name="one-trip-options" type="radio" value="15Day">
+                            <span>15 Days</span>
+                        </label>
+                    </div>
+                    <div class="col-4">
+                        <label class="btn btn-gr" for="21Day">
+                            <input id="21Day" name="one-trip-options" type="radio" value="21Day">
+                            <span>21 Days</span>
+                        </label>
+                    </div>
+                    <div class="col-4">
+                        <label class="btn btn-gr" for="30Day">
+                            <input id="30Day" name="one-trip-options" type="radio" value="30Day">
+                            <span>30 Days</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Annual Membership Duration Selection -->
+            <div class="all-year-options mb-2" style="display: none;">
+                <div class="row1">
+                    <div class="col-12 m-b-5"><strong>How many Year membership?</strong></div>
+                    <div class="col-6">
+                        <label class="btn btn-gr" for="1year">
+                            <input id="1year" name="all-year-options" type="radio" value="50">
+                            <span>1year</span>
+                        </label>
+                    </div>
+                    <div class="col-6">
+                        <label class="btn btn-gr" for="2year">
+                            <input id="2year" name="all-year-options" type="radio" value="370">
+                            <span>2year</span>
+                        </label>
+                    </div>
+                    <div class="col-6">
+                        <label class="btn btn-gr" for="3year">
+                            <input id="3year" name="all-year-options" type="radio" value="460">
+                            <span>3year</span>
+                        </label>
+                    </div>
+                    <div class="col-6">
+                        <label class="btn btn-gr" for="5year">
+                            <input id="5year" name="all-year-options" type="radio" value="730">
+                            <span>5year</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Travel Destination Selection -->
+            <h4 class="text-left heading heading-dyn m-b-10">Where are you traveling?</h4>
+            <div class="mb-2">
+                <div class="row">
+                    <div class="col-6">
+                        <label style="width: 60vw;" class="btn btn-gr" for="international">
+                            <input id="international" name="destination-options" type="radio" value="124">
+                            <span>International & Domestic</span>
+                        </label>
+                    </div>
+                    <div class="col-6">
+                        <label style="width: 60vw;" class="btn btn-gr" for="domestic">
+                            <input id="domestic" name="destination-options" type="radio" value="50">
+                            <span>Domestic US 48 Only</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Protection Level Selection -->
+           <h4 class="text-left heading heading-dyn m-b-10">Select your Level of Protection</h4>
+<div class="mb-2">
+    <div class="row">
+        <div class="col-6">
+            <label style="width: 60vw;" class="btn btn-gr" for="medjetAssist">
+                <input id="medjetAssist" name="protection-options" type="radio" value="91">
+                <span>MedjetAssist<br> (Medical Transfer Only)</span>
+            </label>
+        </div>
+        <div class="col-6">
+            <label style="width: 60vw;" class="btn btn-gr" for="medjetHorizon">
+                <input id="medjetHorizon" name="protection-options" type="radio" value="200">
+                <span>MedjetHorizon<br>(Medical Transfer + Security Response)</span>
+            </label>
+        </div>
+    </div>
+</div>
+
+<div class="button-container">
+    <label style="width: 60vw; font-size: 14px;" id="medjetEliteLabel" class="Elite-btn">
+        <input id="medjetElite" name="protection-options" type="radio" value="300">
+        <span>MedjetElite <br>(Transfer + Security + Search and Rescue)</span>
+    </label>
+</div>
+        <div id="totalDisplay" style="font-size: 36px; font-weight: bold; text-align: center; margin-top: 20px;">
+    Total: $0
+</div>
+<div class="button-container">
+    <a href="https://medjetassist.com/enroll" target="_blank" class="button-link">
+        <button style="background-color: #d92828; color: #FFF; width: 60vw; font-size: 18px; border-width: 0px;" id="nextPageBtn" class="btn-gr">
+           <strong> See More Options/Enroll </strong>
+        </button>
+    </a>
+</div>
+ <p style="text-align: center; margin-top: 10px; font-size: 16px;">
+                    If you are 74+ please fill our <a href="https://medjetassist.com/diamond-membership"> Diamond Application </a> and a Medjet associate will be with you shortly. 
+                </p>
+        </div>
+    </div>
+
+<script>
+    // Define the pricing matrix
+    const pricingMatrix = {
+        individual: {
+            '1year': {
+                international: {
+                    horizon: 474,
+                    assist: 315
+                },
+                domestic: {
+                    horizon: 364,
+                    assist: 255
+                }
+            },
+            '2year': {
+                international: {
+                    horizon: 843,
+                    assist: 525
+                },
+                domestic: {
+                    horizon: 636,
+                    assist: 415
+                }
+            },
+            '3year': {
+                international: {
+                    horizon: 1207,
+                    assist: 730
+                },
+                domestic: {
+                    horizon: 895,
+                    assist: 510
+                }
+            },
+            '5year': {
+                international: {
+                    horizon: 1945,
+                    assist: 1150
+                },
+                domestic: {
+                    horizon: 1460,
+                    assist: 800
+                }
+            },
+
+             '8day': {
+                international: {
+                    horizon: 189,
+                    assist: 99
+                },
+                domestic: {
+                    horizon: 1460,
+                    assist: 800
+                }
+            },
+            '15Day': {
+                international: {
+                    horizon: 245,
+                    assist: 155
+                },
+                domestic: {
+                    horizon: 1460,
+                    assist: 800
+                }
+            },
+            '21Day': {
+                international: {
+                    horizon: 290,
+                    assist: 200
+                },
+                domestic: {
+                    horizon: 1460,
+                    assist: 800
+                }
+            },
+             '30Day': {
+                international: {
+                    horizon: 345,
+                    assist: 255
+                },
+                domestic: {
+                    horizon: 1460,
+                    assist: 800
+                }
+            }
+        },
+        family: {
+            '1year': {
+                international: {
+                    horizon: 614,
+                    assist: 425
+                },
+                domestic: {
+                    horizon: 534,
+                    assist: 370
+                }
+            },
+            '2year': {
+                international: {
+                    horizon: 1173,
+                    assist: 795
+                },
+                domestic: {
+                    horizon: 845,
+                    assist: 555
+                }
+            },
+            '3year': {
+                international: {
+                    horizon: 1717,
+                    assist: 1150
+                },
+                domestic: {
+                    horizon: 1270,
+                    assist: 845
+                }
+            },
+            '5year': {
+                international: {
+                    horizon: 2725,
+                    assist: 1780
+                },
+                domestic: {
+                    horizon: 2030,
+                    assist: 1200
+                }
+            },
+            '8day': {
+                international: {
+                    horizon: 318,
+                    assist: 198
+                },
+                domestic: {
+                    horizon: 1270,
+                    assist: 845
+                }
+            },
+            '15Day': {
+                international: {
+                    horizon: 380,
+                    assist: 260
+                },
+                domestic: {
+                    horizon: 2030,
+                    assist: 1200
+                }
+            },
+             '21Day': {
+                international: {
+                    horizon: 455,
+                    assist: 335
+                },
+                domestic: {
+                    horizon: 1270,
+                    assist: 845
+                }
+            },
+            '30Day': {
+                international: {
+                    horizon: 515,
+                    assist: 395
+                },
+                domestic: {
+                    horizon: 2030,
+                    assist: 1200
+                }
+            }
+
+        }
+    };
+
+    // Toggle side panel visibility
+    document.getElementById('togglePanelBtn').addEventListener('click', function () {
+        document.getElementById('sidePanel').classList.add('open');
+        document.getElementById('togglePanelBtn').style.opacity = '0';
+    });
+
+    document.getElementById('closeBtn').addEventListener('click', function () {
+        document.getElementById('sidePanel').classList.remove('open');
+        setTimeout(function () {
+            document.getElementById('togglePanelBtn').style.opacity = '1';
+        }, 300); // Delay to match the panel closing animation
+    });
+
+    // Show/hide specific options based on membership type selection
+    document.getElementById('oneTrip').addEventListener('change', function () {
+        document.querySelector('.one-trip-options').style.display = 'block';
+        document.querySelector('.all-year-options').style.display = 'none';
+        updateOptions();
+    });
+
+    document.getElementById('allYear').addEventListener('change', function () {
+        document.querySelector('.all-year-options').style.display = 'block';
+        document.querySelector('.one-trip-options').style.display = 'none';
+        updateOptions();
+    });
+
+    // Update button states and calculate total
+    function updateOptions() {
+        toggleDomestic();
+        disableShortTermForDomestic();
+        disableLongTermForDomestic();
+        calculateTotal();
+    }
+
+    // Toggle Domestic button
+    function toggleDomestic() {
+        const domesticButton = document.getElementById('domestic');
+        const oneTripSelected = document.getElementById('oneTrip').checked;
+        const fiveYearSelected = document.getElementById('5year')?.checked;
+        const threeYearSelected = document.getElementById('3year')?.checked;
+        const twoYearSelected = document.getElementById('2year')?.checked;
+
+        domesticButton.disabled = oneTripSelected || fiveYearSelected || threeYearSelected || twoYearSelected;
+        domesticButton.closest('label').classList.toggle('disabled-btn', domesticButton.disabled);
+    }
+
+    // Disable Short Term option if Domestic is selected
+    function disableShortTermForDomestic() {
+        const shortTermButton = document.getElementById('oneTrip');
+        const domesticSelected = document.getElementById('domestic').checked;
+
+        shortTermButton.disabled = domesticSelected;
+        shortTermButton.closest('label').classList.toggle('disabled-btn', shortTermButton.disabled);
+    }
+
+    // Disable Long Term options if Domestic is selected
+    function disableLongTermForDomestic() {
+        const domesticSelected = document.getElementById('domestic').checked;
+        const longTermButtons = ['2year', '3year', '5year'];
+
+        longTermButtons.forEach(id => {
+            const button = document.getElementById(id);
+            if (button) {
+                button.disabled = domesticSelected;
+                button.closest('label').classList.toggle('disabled-btn', button.disabled);
+            }
+        });
+    }
+
+    // Attach change event listeners to relevant inputs
+    document.querySelectorAll('input[name="type-options"], input[name="duration-options"], input[name="one-trip-options"], input[name="all-year-options"], input[name="destination-options"], input[name="protection-options"]').forEach(input => {
+        input.addEventListener('change', updateOptions);
+    });
+
+    // Initial setup
+    updateOptions();
+
+    // Calculation function to update the total based on selections
+    function calculateTotal() {
+        let total = 0;
+
+        // Get selected options
+        const tripTypeInput = document.querySelector('input[name="type-options"]:checked');
+        const durationOption = document.querySelector('input[name="duration-options"]:checked');
+        const oneTripInput = document.querySelector('input[name="one-trip-options"]:checked');
+        const allYearInput = document.querySelector('input[name="all-year-options"]:checked');
+        const destinationInput = document.querySelector('input[name="destination-options"]:checked');
+        const protectionInput = document.querySelector('input[name="protection-options"]:checked');
+
+        // Ensure selections are made
+        if (!tripTypeInput || !durationOption || (!oneTripInput && !allYearInput) || !destinationInput || !protectionInput) {
+            console.log("Missing selections!");
+            return;
+        }
+
+        // Define the key for pricing
+        const tripType = tripTypeInput.id;
+        const duration = durationOption.id === 'allYear' ? allYearInput?.id : oneTripInput?.id;
+        const destination = destinationInput.id;
+        const protection = protectionInput.id.replace('medjet', '').toLowerCase();
+
+        console.log("Pricing Key:", tripType, duration, destination, protection); // Debugging key
+
+        // Calculate total
+        if (pricingMatrix[tripType] && pricingMatrix[tripType][duration] && pricingMatrix[tripType][duration][destination]) {
+            total = pricingMatrix[tripType][duration][destination][protection] || 0;
+        }
+
+        console.log("Calculated Total:", total); // Debugging: Log the total
+        document.getElementById('totalDisplay').innerText = 'Total: $' + total;
+    }
+</script>
+
+</body>
+
+</html>
